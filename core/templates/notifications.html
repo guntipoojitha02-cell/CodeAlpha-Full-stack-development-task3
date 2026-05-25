@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notifications</title>
+</head>
+<body>
+
+<h1>Live Notifications</h1>
+
+<div id="notifications">
+    {% for note in notes %}
+        <p>{{ note.message }}</p>
+    {% endfor %}
+</div>
+
+<script>
+    const socket = new WebSocket(
+        'ws://' + window.location.host + '/ws/notifications/'
+    );
+
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        const div = document.getElementById('notifications');
+
+        div.innerHTML += `<p>${data.message}</p>`;
+    };
+</script>
+
+</body>
+</html>

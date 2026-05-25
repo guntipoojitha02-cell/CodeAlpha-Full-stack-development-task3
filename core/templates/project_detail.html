@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+    <h1>{{ project.name }}</h1>
+
+    <p>{{ project.description }}</p>
+
+    <a href="/create-task/{{ project.id }}/">
+
+        Create Task
+
+    </a>
+
+    <hr>
+
+    {% for task in tasks %}
+
+    <div>
+
+        <h3>{{ task.title }}</h3>
+
+        <p>{{ task.description }}</p>
+
+        <p>
+
+            Assigned To:
+
+            {{ task.assigned_to.username }}
+
+        </p>
+
+        <h4>Comments</h4>
+
+        {% for comment in task.comment_set.all %}
+
+        <p>
+
+            <b>{{ comment.user.username }}</b>
+
+            :
+
+            {{ comment.text }}
+
+        </p>
+
+        {% endfor %}
+
+        <form action="/comment/{{ task.id }}/" method="POST">
+
+            {% csrf_token %}
+
+            <input type="text" name="text">
+
+            <button type="submit">
+
+                Comment
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <hr>
+
+    {% endfor %}
+
+</body>
+
+</html>
